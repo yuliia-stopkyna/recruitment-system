@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from user.serializers import UserSerializer
+from jobs.models import Applications
+from user.serializers import UserSerializer, UserApplicationsSerializer
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -11,8 +11,21 @@ class CreateUserView(generics.CreateAPIView):
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         return self.request.user
+
+
+class UserApplicationsView(generics.ListAPIView):
+    """Endpoint for listing user applications"""
+
+    serializer_class = UserApplicationsSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = Applications.objects.select_related("user").filter(
+            user_id=self.kwargs.get("pk")
+        )
+
+        return queryset

@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from jobs.models import Applications
+from jobs.serializers import JobRetrieveSerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,3 +33,11 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+
+
+class UserApplicationsSerializer(serializers.ModelSerializer):
+    job = JobRetrieveSerializer(read_only=True)
+
+    class Meta:
+        model = Applications
+        fields = ("id", "job")
