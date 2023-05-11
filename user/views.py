@@ -18,7 +18,7 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
 
 class UserApplicationsView(generics.ListAPIView):
-    """Endpoint for listing user applications"""
+    """Endpoint for listing user applications by provided user_id"""
 
     serializer_class = UserApplicationsSerializer
     permission_classes = (IsAuthenticated,)

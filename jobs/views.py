@@ -47,6 +47,7 @@ class JobsViewSet(
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         job = serializer.save()
+        job.refresh_from_db()
         read_serializer = JobRetrieveSerializer(job)
 
         return Response(read_serializer.data, status=status.HTTP_200_OK)
