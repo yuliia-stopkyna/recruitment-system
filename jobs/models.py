@@ -21,7 +21,7 @@ class Jobs(models.Model):
 
 
 class JobHeaders(models.Model):
-    job = models.ForeignKey(Jobs, on_delete=models.CASCADE, related_name="headers")
+    job = models.OneToOneField(Jobs, on_delete=models.CASCADE, related_name="headers")
     rich_title_text = models.CharField(max_length=255)
     rich_subtitle_text = models.CharField(max_length=255)
 
